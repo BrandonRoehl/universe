@@ -21,7 +21,9 @@ def update
 end
 
 def compile
-    File.symlink("#{$0.chomp('utils/universe')}universe", System.sym)
+    FileUtils.rm_r "#{System.sym}/bin"
+    FileUtils.mkdir "#{System.sym}/bin"
+    FileUtils.symlink('../universe', "#{System.sym}/bin/", force: true)
 end
 
 send ARGV[0]
