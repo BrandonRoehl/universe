@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'fileutils'
 require "#{$0.chomp('universe')}System"
+require "#{$0.chomp('universe')}Compile"
 
 def install
     unless System.universe
@@ -24,6 +25,9 @@ def compile
     FileUtils.rm_r "#{System.sym}/bin"
     FileUtils.mkdir "#{System.sym}/bin"
     FileUtils.symlink('../universe', "#{System.sym}/bin/", force: true)
+    for dir in Dir.glob("#{System.sym}/sources/*").select {|f| File.directory? f}
+        Compile.all File.basename dir
+    end
 end
 
 send ARGV[0]
