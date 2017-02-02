@@ -10,7 +10,7 @@ def install
 end
 
 def update
-    system "sh -c '#{System.universe}/utils/'"
+    system "#{System.universe}/utils/update-modules"
     compile
 end
 

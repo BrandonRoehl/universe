@@ -1,0 +1,24 @@
+#!/bin/sh
+if [ -e $HOME/.universe ]
+then
+    if [ -h $HOME/.universe ]
+    then
+        dotdir=$(readlink ~/.universe)
+    else
+        dotdir="$HOME/.universe"
+    fi
+else
+    echo 'No repositories to update'
+    exit 1
+fi
+echo 'Updating repositories'
+currentPath=$PWD
+cd $dotdir
+git submodule foreach \
+        '
+        git clean -fdx;
+        git reset --hard;
+        git checkout master -f;
+        git pull origin master -f;
+        '
+cd $currentPath
