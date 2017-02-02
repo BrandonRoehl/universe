@@ -30,4 +30,5 @@ def compile
     end
 end
 
-send ARGV[0]
+arguments = ARGV.join(', ')
+eval "send #{arguments}"
