@@ -3,12 +3,15 @@ require 'fileutils'
 require './utils/System'
 
 def install
-    puts System.universe
-    puts System.universe
-    puts System.universe
+    unless System.universe
+        File.symlink(System.pwd, System.sym)
+    end
+    compile
 end
 
 def update
+    system "sh -c '#{System.universe}/utils/'"
+    compile
 end
 
 def compile
