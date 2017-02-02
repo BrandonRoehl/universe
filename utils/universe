@@ -7,7 +7,6 @@ def install
         File.symlink(System.pwd, System.sym)
     end
     compile
-    puts "stuff"
 end
 
 def update

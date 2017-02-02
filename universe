@@ -2,5 +2,5 @@
 if type ruby > /dev/null; then
     "${0/universe/}utils/universe" $@
 else
-    echo 'Ruby is required for this reposiory'
+    echo 'Ruby is required for this command to run'
 fi
