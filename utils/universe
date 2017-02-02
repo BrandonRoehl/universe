@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+require "#{$0.chomp('universe')}System"
+
+def install
+    unless System.universe
+        File.symlink(System.pwd, System.sym)
+    end
+    compile
+    puts "stuff"
+end
+
+def update
+    system "#{System.universe}/utils/update-modules"
+    compile
+end
+
+def compile
+end
+
+send ARGV[0]
