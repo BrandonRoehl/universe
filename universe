@@ -2,12 +2,8 @@
 require 'fileutils'
 require './utils/System'
 
-def directory
-    puts System.universe
-end
-
 def install
-    puts System.home
+    puts System.universe
 end
 
 def update

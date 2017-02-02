@@ -10,7 +10,14 @@ module System
         File.expand_path('~')
     end
     def universe
-        File.readlink(File.expand_path('~/.universe'))
+        if File.exist? sym
+            return File.readlink(self.sym)
+        end
+        return false
+    end
+    def sym
+        # Save to memory for multi access
+        @sym ||= File.expand_path('~/.universe')
     end
 end
 include System
