@@ -1,21 +1,9 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-
-module System
-    def sh(command)
-        return system "sh -c \"#{command}\""
-    end
-    def pwd
-        FileUtils.pwd
-    end
-    def home
-        File.expand_path('~')
-    end
-end
-include System
+require './utils/System'
 
 def directory
-    return  '~'
+    puts System.universe
 end
 
 def install
