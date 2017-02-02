@@ -21,6 +21,7 @@ def update
 end
 
 def compile
+    File.symlink("#{$0.chomp('utils/universe')}universe", System.sym)
 end
 
 send ARGV[0]
