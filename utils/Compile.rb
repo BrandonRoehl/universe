@@ -5,12 +5,16 @@ module Compile
     end
 
     def symlink(dir)
-        for file in Dir.glob("*.{rb,sh,bash,zsh}")
+        Dir.glob('*').select do |file|
+            file =~ /.[^.]*/ || file =~ /\.(rb|bash|sh|zsh)/
+        end.each do |file|
+            puts file
         end
     end
 
     def gcc(dir)
         for file in Dir.glob("*.{c,cpp,c++}")
+            puts file
         end
     end
 end

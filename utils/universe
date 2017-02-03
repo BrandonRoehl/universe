@@ -1,18 +1,18 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-require "#{$0.chomp('universe')}System"
-require "#{$0.chomp('universe')}Compile"
+@universe = $0.chomp('/utils/universe')
+require "#{@universe}/utils/Compile"
 
 def update
-    system "#{System.universe}/utils/update-modules"
+    system "#{@universe}/utils/update-modules"
     compile
 end
 
 def compile
-    FileUtils.rm_r "#{System.sym}/bin"
-    FileUtils.mkdir "#{System.sym}/bin"
-    FileUtils.symlink('../universe', "#{System.sym}/bin/", force: true)
-    for dir in Dir.glob("#{System.sym}/sources/*").select {|f| File.directory? f}
+    FileUtils.rm_rf "#{@universe}/bin"
+    FileUtils.mkdir "#{@universe}/bin"
+    FileUtils.symlink('../universe', "#{@universe}/bin/", force: true)
+    for dir in Dir.glob("#{@universe}/sources/*").select {|f| File.directory? f}
         Compile.all File.basename dir
     end
 end
