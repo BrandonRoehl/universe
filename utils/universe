@@ -11,20 +11,20 @@ def update
 end
 
 def compile
-    unless ARGV[1] =~ /^(-o|--only)$/
+    if ['-o', '--only'].contains?(ARGV[1])
+        @args = ARGV[2..-1]
+    else
         FileUtils.rm_rf "#{@universe}/bin"
         FileUtils.mkdir "#{@universe}/bin"
-        FileUtils.symlink('../utils/universe', "#{@universe}/bin/", force: true)
         for dir in Dir.glob("#{@universe}/sources/*").select {|f| File.directory? f}
             Compile.all dir
         end
         @args = ARGV[1..-1]
-    else
-        @args = ARGV[2..-1]
     end
     for dir in @args
         Compile.all dir
     end
+    FileUtils.symlink('../utils/universe', "#{@universe}/bin/", force: true)
 end
 
 send ARGV[0]
