@@ -11,11 +11,11 @@ def update
 end
 
 def compile
+    FileUtils.rm_rf "#{@universe}/bin"
+    FileUtils.mkdir "#{@universe}/bin"
     if ['-o', '--only'].include? ARGV[1]
         @args = ARGV[2..-1]
     else
-        FileUtils.rm_rf "#{@universe}/bin"
-        FileUtils.mkdir "#{@universe}/bin"
         for dir in Dir.glob("#{@universe}/sources/*").select {|f| File.directory? f}
             Compile.all dir
         end
