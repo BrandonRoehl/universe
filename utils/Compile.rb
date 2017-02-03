@@ -9,12 +9,11 @@ module Compile
     def symlink(dir)
         print 'Added '
         Dir.glob("#{dir}/*").select do |file|
-            file =~ /^.[^.]*$/ || file =~ /\.(rb|bash|sh|zsh)/
+            File.basename(file) =~ /^.[^.]*$/ || file =~ /\.(rb|bash|sh|zsh)/
         end.each do |file|
-            comp = File.basename file
             extn = File.extname  file
             name = File.basename file, extn
-            FileUtils.symlink("../sources/#{File.basename dir}/#{comp}", "#{@universe}/bin/#{name}", force: true)
+            FileUtils.symlink(file, "#{@universe}/bin/#{name}", force: true)
             print " #{name}"
         end
         puts
