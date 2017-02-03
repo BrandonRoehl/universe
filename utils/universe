@@ -11,7 +11,7 @@ def update
 end
 
 def compile
-    if ['-o', '--only'].contains?(ARGV[1])
+    if ['-o', '--only'].include? ARGV[1]
         @args = ARGV[2..-1]
     else
         FileUtils.rm_rf "#{@universe}/bin"
