@@ -43,8 +43,12 @@ Add the bin to your path
 export PATH="$PATH:${.../universe/bin}"
 ```
 
+## Usage
+
 Universe commands to update and recompile
 ```bash
 universe update
 universe compile
 ```
+
+For other commands just call the names from bin
