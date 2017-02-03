@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-@universe = $0.chomp('/utils/universe')
+@universe = $0.chomp('/universe').chomp('/bin').chomp('/utils')
+puts @universe
 require "#{@universe}/utils/Compile"
 
 def update
@@ -11,7 +12,7 @@ end
 def compile
     FileUtils.rm_rf "#{@universe}/bin"
     FileUtils.mkdir "#{@universe}/bin"
-    FileUtils.symlink('../universe', "#{@universe}/bin/", force: true)
+    FileUtils.symlink('../utils/universe', "#{@universe}/bin/", force: true)
     for dir in Dir.glob("#{@universe}/sources/*").select {|f| File.directory? f}
         Compile.all dir
     end
