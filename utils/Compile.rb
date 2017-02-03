@@ -1,5 +1,5 @@
 module Compile
-    @universe = $0.chomp('/universe').chomp('/bin').chomp('/utils')
+    @universe = $0.sub(/\/(bin|utils)\/universe/, '')
 
     def all(dir)
         self.symlink dir
