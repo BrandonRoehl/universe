@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
 require 'fileutils'
 @universe = $0.chomp('/universe').chomp('/bin').chomp('/utils')
-puts @universe
 require "#{@universe}/utils/Compile"
+require "#{@universe}/utils/Logo"
 
 def update
+    Logo.credits
     system "#{@universe}/utils/update-modules"
     compile
 end
