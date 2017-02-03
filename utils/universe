@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-@universe = $0.chomp('/universe').chomp('/bin').chomp('/utils')
+@universe = $0.sub(/\/(bin|utils)\/universe/, '')
 require "#{@universe}/utils/Compile"
 require "#{@universe}/utils/Logo"
 
