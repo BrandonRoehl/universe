@@ -9,7 +9,7 @@ module Compile
     def symlink(dir)
         print 'Added '
         Dir.glob("#{dir}/*").select do |file|
-            File.basename(file) =~ /^.[^.]*$/ || file =~ /\.(rb|bash|sh|zsh)/
+            File.basename(file) =~ /^.[^.]*$/ || file =~ /\.(rb|bash|sh|zsh)$/
         end.each do |file|
             extn = File.extname  file
             name = File.basename file, extn
