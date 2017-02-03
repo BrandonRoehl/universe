@@ -1,8 +1,17 @@
 module Compile
-    # Dir.glob("*.{rb,sh,bash,zsh}")
-    # Dir.glob("*.{c,cpp,c++}")
     def all(dir)
-        puts dir
+        self.symlink dir
+        self.gcc dir
+    end
+
+    def symlink(dir)
+        for file in Dir.glob("*.{rb,sh,bash,zsh}")
+        end
+    end
+
+    def gcc(dir)
+        for file in Dir.glob("*.{c,cpp,c++}")
+        end
     end
 end
 include Compile

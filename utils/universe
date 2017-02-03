@@ -3,19 +3,6 @@ require 'fileutils'
 require "#{$0.chomp('universe')}System"
 require "#{$0.chomp('universe')}Compile"
 
-def install
-    unless System.universe
-        File.symlink(System.pwd, System.sym)
-        puts 'Installing universe to system'
-        puts 'Make sure that you add'
-        puts 'export PATH="$PATH:$HOME/.universe/bin"'
-        puts 'to your dotfiles'
-    else
-        puts 'Universe is already installed'
-    end
-    compile
-end
-
 def update
     system "#{System.universe}/utils/update-modules"
     compile

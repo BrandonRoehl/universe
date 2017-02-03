@@ -10,17 +10,7 @@ module System
     end
 
     def universe
-        return @universe unless @universe.nil?
-        if File.exist? sym
-            if File.symlink? sym
-                @universe = File.readlink sym
-            else
-                @universe = sym
-            end
-        else
-            @universe = false
-        end
-        return @universe
+        @universe ||= $0.chomp('/utils/universe')
     end
 
     def sym
