@@ -6,7 +6,7 @@ require "#{@universe}/utils/Logo"
 
 def update
     Logo.credits
-    system "#{@universe}/utils/update-modules"
+    system "#{@universe}/utils/update-modules #{@universe}"
     compile
 end
 

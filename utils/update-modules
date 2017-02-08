@@ -1,19 +1,12 @@
 #!/bin/bash
-if [ -e $HOME/.universe ]
+if [ ! -e $1 ]
 then
-    if [ -h $HOME/.universe ]
-    then
-        dotdir=$(readlink ~/.universe)
-    else
-        dotdir="$HOME/.universe"
-    fi
-else
-    echo 'No repositories to update'
+    echo 'Path not found'
     exit 1
 fi
 echo 'Updating repositories'
 currentPath=$PWD
-cd $dotdir
+cd $1
 git submodule init
 git submodule update --recursive
 git submodule foreach 'git pull'
