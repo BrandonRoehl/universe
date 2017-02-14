@@ -1,1 +1,6 @@
-
+[submodule "sources/BrandonRoehl"]
+	path = sources/BrandonRoehl
+	url = https://github.com/BrandonRoehl/scripts.git
+[submodule "sources/whoisronnoc"]
+	path = sources/whoisronnoc
+	url = https://github.com/whoisronnoc/scripts.git
