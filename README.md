@@ -35,7 +35,7 @@
 
 First clone and initialize
 ```bash
-git clone git@github.com:BrandonRoehl/universe.git
+git clone https://www.github.com/BrandonRoehl/universe.git
 cd universe
 ./universe update
 ```
