@@ -1,13 +1,31 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-@universe = $0.sub(/\/(bin|utils)\/universe/, '')
+@universe = File.expand_path($0).sub(/\/bin\/universe/, '')
 require "#{@universe}/utils/Compile"
 require "#{@universe}/utils/Logo"
 
-def update
-    Logo.credits
-    system "#{@universe}/utils/update-modules #{@universe}"
-    compile
+def install
+    rc = File.expand_path('~/.universerc')
+    if File.file?(rc)
+        Logo.credits
+        FileUtils.rm_rf "#{@universe}/sources"
+        FileUtils.mkdir "#{@universe}/sources"
+        for line in File.open rc
+            if line =~ /(?:git@([^:]+)|http(?:s?):\/\/(.+?)\/)(.*)\.git/
+                # match git urls
+                puts "Clonning #{$2} from #{$1} into '#{@universe}/sources'"
+                system 'git clone', $&, "#{@universe}/sources/#{$2.gsub '/', '_'}"
+            elsif line =~ /\S+/ && File.directory?($&)
+                # match paths
+                puts "Simlinking #{$&} into '#{@universe}/sources'"
+                FileUtils.symlink($&, "#{@universe}/sources/#{File.basename $&}", force: true)
+            end
+        end
+    else
+        puts "#{@universe}"
+        puts "universerc not found searching in #{File.expand_path('~')}"
+        exit 1
+    end
 end
 
 def compile
@@ -24,7 +42,12 @@ def compile
     for dir in @args
         Compile.all dir
     end
-    FileUtils.symlink('../utils/universe', "#{@universe}/bin/", force: true)
+    FileUtils.symlink('../utils/universe', "#{@universe}/bin/universe", force: true)
+end
+
+def update
+    system 'find', "#{@universe}/sources", '-type', 'd', '-name', '.git', '-execdir', 'git -C {}/.. pull origin master'
+    compile
 end
 
 send ARGV[0]

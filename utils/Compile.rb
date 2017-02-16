@@ -1,5 +1,5 @@
 module Compile
-    @universe = $0.sub(/\/(bin|utils)\/universe/, '')
+    @universe = $0.sub(/bin\/universe/, '')
 
     def all(dir)
         self.symlink dir
@@ -11,9 +11,10 @@ module Compile
         Dir.glob("#{dir}/*").select do |file|
             File.basename(file) =~ /^.[^.]*$/ || file =~ /\.(rb|bash|sh|zsh)$/
         end.each do |file|
+            comp = File.basename file
             extn = File.extname  file
             name = File.basename file, extn
-            FileUtils.symlink(file, "#{@universe}/bin/#{name}", force: true)
+            FileUtils.symlink("../sources/#{File.basename dir}/#{comp}", "#{@universe}/bin/#{name}", force: true)
             print " #{name}"
         end
         puts
