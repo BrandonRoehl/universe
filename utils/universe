@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-@universe = File.expand_path($0).sub(/\/bin\/universe/, '')
+@universe = File.expand_path($0).sub(/\/bin\/universe$/, '')
 require "#{@universe}/utils/Compile"
 require "#{@universe}/utils/Logo"
 
@@ -11,18 +11,19 @@ def install
         FileUtils.rm_rf "#{@universe}/sources"
         FileUtils.mkdir "#{@universe}/sources"
         for line in File.open rc
-            if line =~ /(?:\w+@([^:]+)|http(?:s?):\/\/(.+?)\/)(.*)\.git/
+            puts
+            if line =~ /(?:\w+@(.+?):|http(?:s?):\/\/(.+?)\/)(.*)\.git/
                 # match git urls
-                puts "Clonning #{$2} from #{$1} into '#{@universe}/sources'"
-                system 'git clone', $&, "#{@universe}/sources/#{$2.gsub '/', '_'}"
-            elsif line =~ /\S+/ && File.directory?($&)
+                puts "Clonning #{$3} from #{$1 || $2} into '#{@universe}/sources'"
+                system 'git', 'clone', $&, "#{@universe}/sources/#{$3.gsub '/', '_'}"
+            elsif line =~ /\S+/
                 # match paths
-                puts "Simlinking #{$&} into '#{@universe}/sources'"
-                FileUtils.symlink($&, "#{@universe}/sources/#{File.basename $&}", force: true)
+                path = $&.gsub /^~/, File.expand_path('~')
+                puts "Simlinking #{path} into '#{@universe}/sources'"
+                FileUtils.symlink(path, "#{@universe}/sources/#{File.basename path}")
             end
         end
     else
-        puts "#{@universe}"
         puts "universerc not found searching in #{File.expand_path('~')}"
         exit 1
     end
@@ -46,7 +47,10 @@ def compile
 end
 
 def update
-    system 'find', "#{@universe}/sources", '-type', 'd', '-name', '.git', '-execdir', 'git -C {}/.. pull origin master'
+    for dir in Dir.glob("#{@universe}/sources/*/.git")
+        dir.sub! /\/\.git$/, ''
+        system 'git', '-C', dir, 'pull', 'origin', 'master'
+    end
     compile
 end
 

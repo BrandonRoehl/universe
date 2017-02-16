@@ -1,5 +1,5 @@
 module Compile
-    @universe = $0.sub(/bin\/universe/, '')
+    @universe = $0.sub(/bin\/universe$/, '')
 
     def all(dir)
         self.symlink dir
