@@ -21,7 +21,7 @@ def install
         FileUtils.mkdir "#{@universe}/sources"
         for line in File.open rc
             puts
-            if line =~ /(?:\w+@(.+?):|(.+?):|http(?:s?):\/\/(.+?)\/)(.*)\.git/
+            if line =~ /(?:\w+@(.+?):|http(?:s?):\/\/(.+?)\/|(.+?):)(.*)\.git/
                 # match git urls
                 puts "Clonning #{$4} from #{$1 || $2 || $3} into '#{@universe}/sources'"
                 system 'git', 'clone', $&, "#{@universe}/sources/#{$4.gsub '/', '_'}"
