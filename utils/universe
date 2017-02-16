@@ -4,6 +4,23 @@ require 'fileutils'
 require "#{@universe}/utils/Compile"
 require "#{@universe}/utils/Logo"
 
+def compile
+    FileUtils.rm_rf "#{@universe}/bin"
+    FileUtils.mkdir "#{@universe}/bin"
+    if ['-o', '--only'].include? ARGV[1]
+        @args = ARGV[2..-1]
+    else
+        for dir in Dir.glob("#{@universe}/sources/*").select {|f| File.directory? f}
+            Compile.all dir
+        end
+        @args = ARGV[1..-1]
+    end
+    for dir in @args
+        Compile.all dir
+    end
+    FileUtils.symlink('../utils/universe', "#{@universe}/bin/universe", force: true)
+end
+
 def install
     rc = File.expand_path('~/.universerc')
     if File.file?(rc)
@@ -23,27 +40,11 @@ def install
                 FileUtils.symlink(path, "#{@universe}/sources/#{File.basename path}")
             end
         end
+        compile
     else
         puts "universerc not found searching in #{File.expand_path('~')}"
         exit 1
     end
-end
-
-def compile
-    FileUtils.rm_rf "#{@universe}/bin"
-    FileUtils.mkdir "#{@universe}/bin"
-    if ['-o', '--only'].include? ARGV[1]
-        @args = ARGV[2..-1]
-    else
-        for dir in Dir.glob("#{@universe}/sources/*").select {|f| File.directory? f}
-            Compile.all dir
-        end
-        @args = ARGV[1..-1]
-    end
-    for dir in @args
-        Compile.all dir
-    end
-    FileUtils.symlink('../utils/universe', "#{@universe}/bin/universe", force: true)
 end
 
 def update

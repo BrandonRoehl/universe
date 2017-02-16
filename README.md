@@ -33,11 +33,18 @@
 
 ## Install
 
+First create a `.universerc` in your home directory like
+```
+~/workspace/scripts # local scrpits
+https://github.com/BrandonRoehl/scripts.git
+https://github.com/whoisronnoc/scripts.git
+```
+
 First clone and initialize
 ```bash
 git clone https://www.github.com/BrandonRoehl/universe.git
 cd universe
-./universe update
+./bin/universe install
 ```
 
 Add the bin to your path
