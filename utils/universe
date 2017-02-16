@@ -21,10 +21,14 @@ def install
         FileUtils.mkdir "#{@universe}/sources"
         for line in File.open rc
             puts
-            if line =~ /(?:\w+@(.+?):|http(?:s?):\/\/(.+?)\/)(.*)\.git/
+            if line =~ /(?:\w+@(.+?):|(.+?):|http(?:s?):\/\/(.+?)\/)(.*)\.git/
                 # match git urls
-                puts "Clonning #{$3} from #{$1 || $2} into '#{@universe}/sources'"
-                system 'git', 'clone', $&, "#{@universe}/sources/#{$3.gsub '/', '_'}"
+                puts "Clonning #{$4} from #{$1 || $2 || $3} into '#{@universe}/sources'"
+                system 'git', 'clone', $&, "#{@universe}/sources/#{$4.gsub '/', '_'}"
+            elsif line =~ /(.*\/(.*?)\.git)\s*$/
+                # local git urls
+                puts "Clonning #{$1}"
+                system 'git', 'clone', '--local', $1, "#{@universe}/sources/#{$2}"
             elsif line =~ /\S+/
                 # match paths
                 path = $&.gsub /^~/, File.expand_path('~')
