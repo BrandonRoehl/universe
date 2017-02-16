@@ -7,15 +7,7 @@ require "#{@universe}/utils/Logo"
 def compile
     FileUtils.rm_rf "#{@universe}/bin"
     FileUtils.mkdir "#{@universe}/bin"
-    if ['-o', '--only'].include? ARGV[1]
-        @args = ARGV[2..-1]
-    else
-        for dir in Dir.glob("#{@universe}/sources/*").select {|f| File.directory? f}
-            Compile.all dir
-        end
-        @args = ARGV[1..-1]
-    end
-    for dir in @args
+    for dir in Dir.glob("#{@universe}/sources/*").select {|f| File.directory? f}
         Compile.all dir
     end
     FileUtils.symlink('../utils/universe', "#{@universe}/bin/universe", force: true)
