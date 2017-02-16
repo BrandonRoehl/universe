@@ -40,6 +40,7 @@ def install
 end
 
 def update
+    system 'git', '-C', @universe, 'pull', 'origin', 'master'
     for dir in Dir.glob("#{@universe}/sources/*/.git")
         dir.sub! /\/\.git$/, ''
         system 'git', '-C', dir, 'pull', 'origin', 'master'
